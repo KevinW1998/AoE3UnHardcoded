@@ -2,6 +2,11 @@
 #include "UHC.h"
 #include <stdio.h>
 
+#include <string>
+#include <sstream>
+#include <iostream>
+#include <vector>
+
 struct syscall_t {
 	DWORD retType;
 	LPCSTR name;
@@ -46,15 +51,14 @@ extern "C" void __stdcall DumpSyscallParam(DWORD type, LPCVOID defaultVal) {
 	}
 }
 
-using namespace std;
 
-string sHeaderFPtr = "";
-string sCppFPtr = "";
-string sHeader = "";
-string sCpp = "";
+std::string sHeaderFPtr = "";
+std::string sCppFPtr = "";
+std::string sHeader = "";
+std::string sCpp = "";
 
-string __fastcall PrintDefaultParam(DWORD type, const syscall_t::default_param_t& defaultVal) {
-	ostringstream ossConv;
+std::string __fastcall PrintDefaultParam(DWORD type, const syscall_t::default_param_t& defaultVal) {
+	std::stringstream ossConv;
 
 	switch (type)
 	{
@@ -66,9 +70,9 @@ string __fastcall PrintDefaultParam(DWORD type, const syscall_t::default_param_t
 		return ossConv.str();
 	case SyscallBool:
 		if (defaultVal.Boolean)
-			return string("true");
+			return std::string("true");
 		else
-			return string("false");
+			return std::string("false");
 	case SyscallString:
 		ossConv << '\"' << defaultVal.String << '\"';
 		return ossConv.str();
@@ -79,50 +83,50 @@ string __fastcall PrintDefaultParam(DWORD type, const syscall_t::default_param_t
 		return ossConv.str();
 	}
 
-	return string();
+	return std::string();
 }
 
 extern "C" void __stdcall DumpSyscallEnd() {
-	static vector<DWORD> fPtrs;
+	static std::vector<DWORD> fPtrs;
 	LPCSTR typeNames[33];
 
 	typeNames[SyscallVoid] = "void";
 	typeNames[SyscallInteger] = "int";
 	typeNames[SyscallFloat] = "float";
 	typeNames[SyscallBool] = "bool";
-	typeNames[SyscallString] = "string";
+	typeNames[SyscallString] = "std::string";
 	typeNames[SyscallVector] = "vector";
 
-	if (!binary_search(fPtrs.begin(), fPtrs.end(), syscall.fPtr)) {
+	if (!std::binary_search(fPtrs.begin(), fPtrs.end(), syscall.fPtr)) {
 		LPCSTR comment = strchr(syscall.comment, ':');
 		LPCSTR ptr = strstr(syscall.comment, syscall.name);
 		DWORD name_count = 0;
-		string s, names[16];
+		std::string s, names[16];
 
 		// analyze the comment and get argument names
 		if (ptr && comment) {
 			LPCSTR beg = ptr + strlen(syscall.name);
 			s = beg;
 			s = s.substr(0, comment - beg);
-			replace(s.begin(), s.end(), '<', ' ');
-			replace(s.begin(), s.end(), '>', ' ');
-			replace(s.begin(), s.end(), '[', ' ');
-			replace(s.begin(), s.end(), ']', ' ');
-			replace(s.begin(), s.end(), '{', ' ');
-			replace(s.begin(), s.end(), '}', ' ');
-			replace(s.begin(), s.end(), '(', ' ');
-			replace(s.begin(), s.end(), ')', ' ');
-			replace(s.begin(), s.end(), '\"', ' ');
-			replace(s.begin(), s.end(), ',', ' ');
+			std::replace(s.begin(), s.end(), '<', ' ');
+			std::replace(s.begin(), s.end(), '>', ' ');
+			std::replace(s.begin(), s.end(), '[', ' ');
+			std::replace(s.begin(), s.end(), ']', ' ');
+			std::replace(s.begin(), s.end(), '{', ' ');
+			std::replace(s.begin(), s.end(), '}', ' ');
+			std::replace(s.begin(), s.end(), '(', ' ');
+			std::replace(s.begin(), s.end(), ')', ' ');
+			std::replace(s.begin(), s.end(), '\"', ' ');
+			std::replace(s.begin(), s.end(), ',', ' ');
 
-			stringstream ss(s);
-			string temp;
+			std::stringstream ss(s);
+			std::string temp;
 			while (ss >> temp) {
 				if (strcmp(temp.c_str(), "void") != 0 &&
 					strcmp(temp.c_str(), "int") != 0 &&
 					strcmp(temp.c_str(), "float") != 0 &&
 					strcmp(temp.c_str(), "bool") != 0 &&
-					strcmp(temp.c_str(), "string") != 0 &&
+					strcmp(temp.c_str(), "std::string") != 0 &&
 					strcmp(temp.c_str(), "vector") != 0 &&
 					strcmp(temp.c_str(), "long") != 0)
 					names[name_count++] = temp;
@@ -199,31 +203,31 @@ extern "C" void __stdcall DumpSyscallEnd() {
 		argsWithNamesAndDefaults += ')';
 		argsCall += ')';
 
-		ostringstream oss;
+		std::ostringstream oss;
 
-		oss << "//" << comment << endl <<
-			"extern " << typeNames[syscall.retType]  << "(*const " << syscall.name << ')' << argsWithNames << ';' << endl << endl;
+		oss << "//" << comment << std::endl <<
+			"extern " << typeNames[syscall.retType]  << "(*const " << syscall.name << ')' << argsWithNames << ';' << std::endl << std::endl;
 		sHeaderFPtr += oss.str();
 		oss.clear();
-		oss.str(string());
+		oss.str(std::string());
 
 		oss << typeNames[syscall.retType] << "(*const " << syscall.name << ')' << args <<
-			" = reinterpret_cast<" << typeNames[syscall.retType] << "(*)" << args << ">(0x" << hex << syscall.fPtr << ");" << endl;
+			" = reinterpret_cast<" << typeNames[syscall.retType] << "(*)" << args << ">(0x" << std::hex << syscall.fPtr << ");" << std::endl;
 		sCppFPtr += oss.str();
 		oss.clear();
-		oss.str(string());
+		oss.str(std::string());
 
-		oss << "//" << comment << endl << typeNames[syscall.retType] << ' ' << syscall.name << argsWithNamesAndDefaults << ';' << endl << endl;
+		oss << "//" << comment << std::endl << typeNames[syscall.retType] << ' ' << syscall.name << argsWithNamesAndDefaults << ';' << std::endl << std::endl;
 		sHeader += oss.str();
 		oss.clear();
-		oss.str(string());
+		oss.str(std::string());
 
-		oss << typeNames[syscall.retType] << ' ' << syscall.name << argsWithNames << " {" << endl << "\t";
+		oss << typeNames[syscall.retType] << ' ' << syscall.name << argsWithNames << " {" << std::endl << "\t";
 
 		if (syscall.retType != SyscallVoid)
 			oss << "return ";
-		oss	<< "reinterpret_cast<" << typeNames[syscall.retType] << "(*)" << args << ">(0x" << hex << syscall.fPtr << ")" << argsCall << ';' << endl
-			<< '}' << endl << endl;
+		oss	<< "reinterpret_cast<" << typeNames[syscall.retType] << "(*)" << args << ">(0x" << std::hex << syscall.fPtr << ")" << argsCall << ';' << std::endl
+			<< '}' << std::endl << std::endl;
 		sCpp += oss.str();
 
 		fPtrs.push_back(syscall.fPtr);
@@ -246,7 +250,7 @@ extern "C" void __stdcall DumpSyscallComment(LPCSTR comment) {
 	fopen_s(&f, "C:\\Users\\Cliff\\Desktop\\constants.h", "w");
 	fopen_s(&fc, "C:\\Users\\Cliff\\Desktop\\constants.cpp", "w");
 
-	string line;
+	std::string line;
 	while (getline(ifs, line)) {
 		const char* ptr = strchr(line.c_str(), '$');
 		CHAR lpName[256], lpValue[8];

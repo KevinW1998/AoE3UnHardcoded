@@ -2,6 +2,11 @@
 cmake_minimum_required (VERSION 3.7.2)
 project(UHC)
 
+# Enable asm, we need it!
+# enable_language(ASM)
+enable_language(ASM_MASM)
+
+
 # Checks
 if(NOT MSVC)
     message(FATAL_ERROR "Only microsoft compilers are supported right now")
@@ -30,7 +35,7 @@ enable_testing()
 
 # ================= INCLUDES/CMAKE =====================
 # Include Dependencies
-
+include(cmake/3rdparty/depends/zydis/zydis.cmake)
 
 # Includes
 include(cmake/3rdparty/ucm.cmake)

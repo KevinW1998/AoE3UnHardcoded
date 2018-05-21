@@ -1,5 +1,9 @@
 #pragma once
 
+// Bang Native
+
+#include <BangNative.h>
+
 #include "TArray.h"
 #include "Config.h"
 #include <Zydis/Zydis.h>
@@ -120,6 +124,7 @@ public:
 	DWORD HCFameIconData;
 
 	ZydisDecoder Decoder;
+	BangNative BNative;
 
 	UHCInfo();
 	~UHCInfo();

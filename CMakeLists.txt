@@ -41,13 +41,14 @@ include(cmake/3rdparty/depends/zydis/zydis.cmake)
 include(cmake/3rdparty/ucm.cmake)
 
 # ===================== MODULES ========================
+# Sub-Modules
+add_subdirectory(modules/BangNative)
+
 # Main DLL
-add_subdirectory(DLL)
+add_subdirectory(modules/DLL)
 
 # Main Patcher EXE
-add_subdirectory(Patcher/UHCPatcher)
-
-# Plugins
+add_subdirectory(modules/UHCPatcher)
 
 
 

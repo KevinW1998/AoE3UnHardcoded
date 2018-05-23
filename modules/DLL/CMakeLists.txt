@@ -17,6 +17,11 @@ add_dependencies(UHCDLL BangNative)
 target_link_libraries(UHCDLL BangNative)
 target_link_libraries(UHCDLL "${UHC_BANG_NATIVE_FAKE_DLL_FOLDER}/Bang.lib")
 
+# == Set Output Name ==
+set_target_properties(UHCDLL PROPERTIES OUTPUT_NAME "UHC")
+
 # == Install == 
 install(TARGETS UHCDLL
     RUNTIME DESTINATION bin)
+
+

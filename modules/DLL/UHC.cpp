@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UHC.h"
+#include "native/BCore.h"
 
 UHCInfo* pUHCInfo = nullptr;
 HANDLE hProcess = NULL;
@@ -451,6 +452,10 @@ void APIENTRY UHCMain() {
 		// Load .upl plugins
 		if (enable & (ENABLE_CHEAT | ENABLE_SYSCALL))
 			pUHCInfo->LoadPlugins();
+
+		// Setup a test command
+		UHCSyscall& syscallRef = UHCRegisterSyscall(GroupUI2, SyscallVoid, "uhcDisplayMSGUi", reinterpret_cast<LPVOID>(uhcDisplayMSGUi), 0, "uhcDisplayMSGUi: just a test command");
+
 	}
 	catch (...)
 	{
@@ -470,3 +475,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	return TRUE;
 }
 
+void uhcDisplayMSGUi()
+{
+	std::uintptr_t baseAddr = reinterpret_cast<std::uintptr_t>(GetModuleHandle(nullptr)) + 0x1000;
+
+	BCore* bCoreInstance = *reinterpret_cast<BCore**>(baseAddr + 0x865244);
+	bCoreInstance->ShowMessageBox(L"Hello World! This command uses directly the BCore class :D", 0, L"");
+}

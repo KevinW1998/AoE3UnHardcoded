@@ -45,9 +45,9 @@
 	{ "??3BCore@@SAXPAX@Z", TF_SIMPLE(0x548) },\
 	{ "??_VBCore@@SAXPAX@Z", TF_SIMPLE(0x548) },\
 	/* == BString == */ \
-	{ "??0BString@@QAE@XZ", TF_SIMPLE(0x133f) },\
-	{ "??0BString@@QAE@ABV0@@Z", TF_SIMPLE(0x43aa0) },\
-	{ "??0BString@@QAE@PB_W@Z", TF_SIMPLE(0x1a12) },\
+	{ "??0BString@@QAE@XZ", TF_SIMPLE(0x33f) },\
+	{ "??0BString@@QAE@ABV0@@Z", TF_SIMPLE(0x42aa0) },\
+	{ "??0BString@@QAE@PB_W@Z", TF_SIMPLE(0xa12) },\
 	{ "??1BString@@QAE@XZ", TF_SIMPLE(0xca) },\
 	{ "??2BString@@SAPAXI@Z", TF_SIMPLE(0x398) },\
 	{ "??_UBString@@SAPAXI@Z", TF_SIMPLE(0x398) },\

@@ -142,6 +142,8 @@ extern "C" {
 	extern LPWSTR hcXpIconPath;
 	extern LPWSTR hcFameIconPath;
 
+	void uhcDisplayMSGUi();
+
 	void UHCRegisterCheat(LPCSTR string, BOOL enable, void (__stdcall * fPtr)(void*));
 
 	UHCSyscall& UHCRegisterSyscall(DWORD groupName, DWORD retType, LPCSTR name, LPCVOID fPtr, DWORD paramCount, LPCSTR comment);

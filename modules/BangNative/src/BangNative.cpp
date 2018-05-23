@@ -7,7 +7,7 @@
 
 BangNative::BangNative()
 {
-	const auto bangModuleBaseAddr = reinterpret_cast<std::uintptr_t>(GetModuleHandle(nullptr));
+	const auto bangModuleBaseAddr = reinterpret_cast<std::uintptr_t>(GetModuleHandle(nullptr)) + 0x1000;
 	
 	// Inline lambdas
 	const auto tf = [bangModuleBaseAddr](std::uintptr_t ptr)

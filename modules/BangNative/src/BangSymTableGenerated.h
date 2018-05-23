@@ -15,7 +15,7 @@
 	{ "?BCoreUnkFunc36@BCore@@UAEHH@Z", TF_SIMPLE(0x6b4984) },\
 	{ "?BCoreUnkFunc40@BCore@@UAEHHHH@Z", TF_SIMPLE(0xe2926) },\
 	{ "?BCoreUnkFunc44@BCore@@UAEHHHH@Z", TF_SIMPLE(0xe2926) },\
-	{ "?BCoreUnkFunc48@BCore@@UAEHHHH@Z", TF_SIMPLE(0xe2926) },\
+	{ "?ShowMessageBox@BCore@@UAEHABVBString@@HPB_W@Z", TF_SIMPLE(0xe2926) },\
 	{ "?BCoreUnkFunc52@BCore@@UAEHH@Z", TF_SIMPLE(0x1fde49) },\
 	{ "?BCoreUnkFunc56@BCore@@UAEPAHH@Z", TF_SIMPLE(0x1f71) },\
 	{ "?BCoreUnkFunc60@BCore@@UAEHXZ", TF_SIMPLE(0x482556) },\
@@ -44,5 +44,14 @@
 	{ "??_UBCore@@SAPAXI@Z", TF_SIMPLE(0x398) },\
 	{ "??3BCore@@SAXPAX@Z", TF_SIMPLE(0x548) },\
 	{ "??_VBCore@@SAXPAX@Z", TF_SIMPLE(0x548) },\
+	/* == BString == */ \
+	{ "??0BString@@QAE@XZ", TF_SIMPLE(0x133f) },\
+	{ "??0BString@@QAE@ABV0@@Z", TF_SIMPLE(0x43aa0) },\
+	{ "??0BString@@QAE@PB_W@Z", TF_SIMPLE(0x1a12) },\
+	{ "??1BString@@QAE@XZ", TF_SIMPLE(0xca) },\
+	{ "??2BString@@SAPAXI@Z", TF_SIMPLE(0x398) },\
+	{ "??_UBString@@SAPAXI@Z", TF_SIMPLE(0x398) },\
+	{ "??3BString@@SAXPAX@Z", TF_SIMPLE(0x548) },\
+	{ "??_VBString@@SAXPAX@Z", TF_SIMPLE(0x548) },\
 	{ "", 0x0 }
 

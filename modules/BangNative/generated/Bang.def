@@ -14,7 +14,7 @@ EXPORTS
 	?BCoreUnkFunc36@BCore@@UAEHH@Z
 	?BCoreUnkFunc40@BCore@@UAEHHHH@Z
 	?BCoreUnkFunc44@BCore@@UAEHHHH@Z
-	?BCoreUnkFunc48@BCore@@UAEHHHH@Z
+	?ShowMessageBox@BCore@@UAEHABVBString@@HPB_W@Z
 	?BCoreUnkFunc52@BCore@@UAEHH@Z
 	?BCoreUnkFunc56@BCore@@UAEPAHH@Z
 	?BCoreUnkFunc60@BCore@@UAEHXZ
@@ -43,3 +43,12 @@ EXPORTS
 	??_UBCore@@SAPAXI@Z
 	??3BCore@@SAXPAX@Z
 	??_VBCore@@SAXPAX@Z
+	; == BString ==
+	??0BString@@QAE@XZ
+	??0BString@@QAE@ABV0@@Z
+	??0BString@@QAE@PB_W@Z
+	??1BString@@QAE@XZ
+	??2BString@@SAPAXI@Z
+	??_UBString@@SAPAXI@Z
+	??3BString@@SAXPAX@Z
+	??_VBString@@SAXPAX@Z

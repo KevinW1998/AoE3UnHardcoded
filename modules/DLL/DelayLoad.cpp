@@ -10,7 +10,7 @@ FARPROC WINAPI DelayLoadNotifyHandler(unsigned dliNotify, PDelayLoadInfo pdli)
 	if (dliNotify == dliNotePreLoadLibrary)
 	{
 		if (strcmp(pdli->szDll, "Bang.dll") == 0)
-			return reinterpret_cast<FARPROC>(0xDEADBA26);
+			return reinterpret_cast<FARPROC>(0xDEADBA26); // DEADBANG, just a random fake address, MSVC doesn't care
 	} else if (dliNotify == dliNotePreGetProcAddress) {
 		if (pdli->dlp.fImportByName && strcmp(pdli->szDll, "Bang.dll") == 0)
 		{

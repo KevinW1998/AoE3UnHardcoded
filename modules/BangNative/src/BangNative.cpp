@@ -1,5 +1,7 @@
 #include "BangNative.h"
 
+#include "BangSymTableGenerated.h"
+
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
@@ -13,11 +15,9 @@ BangNative::BangNative()
 		return ptr + bangModuleBaseAddr;
 	};
 
-	/*
 	m_bangSymTable = {
 		BANG_NATIVE_SYM_ELEMENTS(tf, tf)
 	};
-	*/
 }
 
 std::uintptr_t BangNative::GetSym(const char* name)

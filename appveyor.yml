@@ -14,7 +14,7 @@ build_script:
     cd build
     echo Installing to %cd%/../build-install/%CONFIGURATION%
     cmake .. -G "Visual Studio 15 2017" -DCMAKE_INSTALL_PREFIX="%cd%/../build-install/%CONFIGURATION%"
-    cmake --build . --target install
+    cmake --build . --target install --config %CONFIGURATION%
 artifacts:
   - path: build-install/%CONFIGURATION%/bin
     name: UHC

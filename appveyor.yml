@@ -1,0 +1,19 @@
+branches:
+  only:
+  - master
+image:
+- Visual Studio 2017
+configuration:
+- Release
+- Debug
+platform:
+- Win32
+build_script:
+- cmd: |-
+    mkdir build
+    cd build
+    cmake .. -G "Visual Studio 15 2017" -DCMAKE_INSTALL_PREFIX="%cd%/../build-install/$(configuration)"
+    cmake --build .
+artifacts:
+  - path: build-install/$(configuration)/bin
+    name: UHC

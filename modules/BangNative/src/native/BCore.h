@@ -1,6 +1,11 @@
+#pragma once
+
 #include "helper/generator.h"
 
 #include "BString.h"
+
+
+#include <remod.h>
 
 class BCore
 {
@@ -95,3 +100,7 @@ private:
 };
 
 static_assert(sizeof(BCore) == 0x928u, "BCore must me 0x928 bytes");
+
+inline remod::global_data_pointer_no_resolve<BCore> BCoreInstance { 0x00C66244 };
+
+

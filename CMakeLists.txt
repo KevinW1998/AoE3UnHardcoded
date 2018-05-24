@@ -36,6 +36,8 @@ enable_testing()
 # ================= INCLUDES/CMAKE =====================
 # Include Dependencies
 include(cmake/3rdparty/depends/zydis/zydis.cmake)
+include(cmake/3rdparty/depends/remod/remod.cmake)
+
 
 # Includes
 include(cmake/3rdparty/ucm.cmake)

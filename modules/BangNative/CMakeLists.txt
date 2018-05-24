@@ -7,6 +7,12 @@ add_library(BangNative STATIC ${UHC_BANG_NATIVE_FILES})
 
 target_include_directories(BangNative PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
+# == DEPENDENCIES ==
+remod_add_dependency(BangNative)
+
+
+# == GENERATOR ==
+
 # Allowed to be used in other proects
 set(UHC_BANG_NATIVE_FAKE_DLL_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/generated" PARENT_SCOPE)
 set(UHC_BANG_NATIVE_FAKE_DLL_FOLDER_INTERNAL "${CMAKE_CURRENT_SOURCE_DIR}/generated")

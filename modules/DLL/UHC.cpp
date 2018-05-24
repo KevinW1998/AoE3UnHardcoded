@@ -378,6 +378,8 @@ void APIENTRY UHCMain() {
 		MessageBoxA(0, "'UHC.dll' Loaded.", "UHC", MB_ICONINFORMATION);
 #endif
 
+		remod::resolve_all();
+
 		pUHCInfo = new UHCInfo;
 
 		DWORD enable = pUHCInfo->Enable;
@@ -477,8 +479,5 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 void uhcDisplayMSGUi()
 {
-	std::uintptr_t baseAddr = reinterpret_cast<std::uintptr_t>(GetModuleHandle(nullptr)) + 0x1000;
-
-	BCore* bCoreInstance = *reinterpret_cast<BCore**>(baseAddr + 0x865244);
-	bCoreInstance->ShowMessageBox(L"Hello World! This command uses directly the BCore class :D", 0, L"");
+	BCoreInstance->ShowMessageBox(L"Hello World! This command uses directly the BCore class :D", 0, L"");
 }

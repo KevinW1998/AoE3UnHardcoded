@@ -1,6 +1,6 @@
 # AoE3 Community UnHardcode Project
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/KevinW1998/AoE3UnHardcoded?svg=true)](https://ci.appveyor.com/api/projects/status/github/KevinW1998/AoE3UnHardcoded?svg=true)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/KevinW1998/AoE3UnHardcoded?svg=true)](https://ci.appveyor.com/project/KevinW1998/aoe3unhardcoded)
 
 Summary
 -------

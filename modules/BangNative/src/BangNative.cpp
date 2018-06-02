@@ -7,12 +7,12 @@
 
 BangNative::BangNative()
 {
-	const auto bangModuleBaseAddr = reinterpret_cast<std::uintptr_t>(GetModuleHandle(nullptr)) + 0x1000;
+	// const auto bangModuleBaseAddr = reinterpret_cast<std::uintptr_t>(GetModuleHandle(nullptr)) + 0x1000;
 	
 	// Inline lambdas
-	const auto tf = [bangModuleBaseAddr](std::uintptr_t ptr)
+	const auto tf = [](std::uintptr_t ptr)
 	{
-		return ptr + bangModuleBaseAddr;
+		return ptr;
 	};
 
 	m_bangSymTable = {

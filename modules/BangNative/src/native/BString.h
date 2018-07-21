@@ -7,10 +7,10 @@ class BString
 {
 	void* m_ptr;
 public:
-	BANG_NATIVE_BINDING(0x0033F) BString();
-	BANG_NATIVE_BINDING(0x42AA0) BString(const BString& other);
-	BANG_NATIVE_BINDING(0x00A12) BString(const wchar_t* str);
-	BANG_NATIVE_BINDING(0x000CA) ~BString();
+	BANG_NATIVE_BINDING(0x40133F) BString();
+	BANG_NATIVE_BINDING(0x443AA0) BString(const BString& other);
+	BANG_NATIVE_BINDING(0x401A12) BString(const wchar_t* str);
+	BANG_NATIVE_BINDING(0x4010CA) ~BString();
 
 	// Classes to port:
 	/*

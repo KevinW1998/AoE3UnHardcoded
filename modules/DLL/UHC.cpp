@@ -2,6 +2,8 @@
 #include "UHC.h"
 #include "native/BCore.h"
 
+#include <remod/remod_functions.h>
+
 UHCInfo* pUHCInfo = nullptr;
 HANDLE hProcess = NULL;
 

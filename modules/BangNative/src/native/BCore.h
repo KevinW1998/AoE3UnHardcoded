@@ -2,7 +2,7 @@
 
 #include "helper/generator.h"
 #include "BString.h"
-#include <remod.h>
+#include <remod/remod_definitions.h>
 
 #define _BYTE void
 #define BWorld void

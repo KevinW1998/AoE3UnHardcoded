@@ -26,7 +26,7 @@ namespace UHCDLL
 		}
 
 	public:
-
+		void ReadFromFile(std::wstring_view path);
 
 		template<typename T>
 		T ReadSingle(const std::string& name)

@@ -3,6 +3,7 @@
 #include "native/BCore.h"
 
 #include <remod/remod_functions.h>
+#include "Modernize/MainUHCInstance.h"
 
 UHCInfo* pUHCInfo = nullptr;
 HANDLE hProcess = NULL;
@@ -380,7 +381,7 @@ void APIENTRY UHCMain() {
 		MessageBoxA(0, "'UHC.dll' Loaded.", "UHC", MB_ICONINFORMATION);
 #endif
 
-		remod::resolve_all();
+		UHCDLL::MainUHCInstance::Init();
 
 		pUHCInfo = new UHCInfo;
 
@@ -457,9 +458,6 @@ void APIENTRY UHCMain() {
 		if (enable & (ENABLE_CHEAT | ENABLE_SYSCALL))
 			pUHCInfo->LoadPlugins();
 
-		// Setup a test command
-		UHCSyscall& syscallRef = UHCRegisterSyscall(GroupUI2, SyscallVoid, "uhcDisplayMSGUi", reinterpret_cast<LPVOID>(uhcDisplayMSGUi), 0, "uhcDisplayMSGUi: just a test command");
-
 	}
 	catch (...)
 	{
@@ -474,12 +472,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	case DLL_PROCESS_DETACH:
 		if (pUHCInfo)
 			delete pUHCInfo;
+		UHCDLL::MainUHCInstance::Deinit();
 	}
 
 	return TRUE;
-}
-
-void uhcDisplayMSGUi()
-{
-	BCoreInstance->ShowMessageBox(L"Hello World! This command uses directly the BCore class :D", 0, L"");
 }

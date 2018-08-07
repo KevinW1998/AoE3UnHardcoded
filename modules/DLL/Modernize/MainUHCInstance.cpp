@@ -13,7 +13,7 @@ UHCDLL::MainUHCInstance::MainUHCInstance(_constructor_tag)
 	// First let remod resolve all global function bridges
 	remod::resolve_all();
 
-	m_config.ReadFromFile(std::wstring_view(*BWorkDirManager::StartUpSubPath));
+	m_config.ReadFromFile(std::wstring_view(BWorkDirManager::StartUpSubPath));
 }
 
 void UHCDLL::MainUHCInstance::Init()

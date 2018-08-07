@@ -8,5 +8,5 @@ class BWorkDirManager
 	BWorkDirManager() = delete;
 
 public:
-	static inline remod::global_data_pointer_no_resolve<const wchar_t*> StartUpSubPath{ 0xbeaf98 };
+	static inline remod::global_data_no_resolve<const wchar_t*> StartUpSubPath{ 0xbeaf98 };
 };

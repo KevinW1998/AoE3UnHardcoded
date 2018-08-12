@@ -1,7 +1,10 @@
 #include "Config.h"
 
+#include <string_view>
 #include <filesystem>
 #include <fstream>
+#include "../Utils/StringUtils.h"
+
 
 namespace fs = std::filesystem;
 
@@ -24,8 +27,12 @@ const std::vector<std::string>& UHCDLL::Config::FindAtLeastOneElementOrThrow(con
 
 void UHCDLL::Config::ReadFromFile(std::wstring_view path)
 {
-	__debugbreak();
-	fs::path file_path = fs::path(path) / "uhc.cfg";
+	using namespace std::literals;
+	fs::path cur_path = fs::current_path();
+	if (!hasEnding(std::string_view(cur_path.u8string()), "bin"sv))
+		cur_path /= "bin";
+	
+	fs::path file_path = cur_path / fs::path(path) / "uhc.cfg";
 	if(!exists(file_path))
 		return;
 
@@ -33,13 +40,38 @@ void UHCDLL::Config::ReadFromFile(std::wstring_view path)
 	if (!configFile.is_open())
 		return;
 
-	while(!configFile.eof())
+	while(true) // TODO: check how to correctly eof
 	{
 		std::string out;
 		std::getline(configFile, out);
 
+		if (configFile.eof())
+			break;
 
+		if(out.empty())
+			continue;
+
+		if(out.find('=') != std::string::npos)
+		{
+			std::vector<std::string_view> elements;
+			splitString(std::string_view(out), elements, "="sv);
+
+			m_configElements[std::string(elements[0])] = { { std::string(elements[1])} };
+		}
+		else if(out.find(' ') != std::string::npos)
+		{
+			std::vector<std::string_view> elements;
+			splitString(std::string_view(out), elements, " "sv);
+
+			std::vector<std::string> allocElements;
+			std::transform(elements.begin() + 1, elements.end(), std::back_inserter(allocElements), [](std::string_view elem) { return std::string(elem); });
+
+			m_configElements[std::string(elements[0])] = std::move(allocElements); // move the rest of the elements
+		}
+		else
+		{
+			// Create new empty vector
+			m_configElements[out] = {};
+		}
 	}
-	
-
 }

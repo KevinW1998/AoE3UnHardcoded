@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <remod/remod_functions.h>
 #include "native/BWorkDirManager.h"
+#include "Feature/Features.h"
 
 std::unique_ptr<UHCDLL::MainUHCInstance> g_MainUHCInstance;
 
@@ -16,7 +17,11 @@ UHCDLL::MainUHCInstance::MainUHCInstance(_constructor_tag)
 	m_config.ReadFromFile(BWorkDirManager::StartUpSubPath);
 
 	// TODO: Load Features
+	m_features = RegistersFeatures();
 
+	// Init features
+	for (auto& feature : m_features)
+		feature->Init(m_config, m_patch_manager);
 }
 
 void UHCDLL::MainUHCInstance::Init()

@@ -12,10 +12,10 @@ namespace UHCDLL
 	protected:
 		BaseFeature() = default;
 
-		virtual bool Init(UHCDLL::Config& config) { return true; }
-		virtual void ManualDeactivate() {}
-		virtual void ApplyPatches(remod::patch_manager<remod::resolve_strategy_noop>& patchManager) {}
-	
+	public:
+		virtual ~BaseFeature() = default;
+		virtual void Init(UHCDLL::Config& config, remod::patch_manager<remod::resolve_strategy_noop>& patchManager) = 0;
+
 	};
 
 }

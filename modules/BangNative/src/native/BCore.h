@@ -107,6 +107,6 @@ inline remod::global_data_pointer_no_resolve<BCore> BCoreInstance { 0x00C66244 }
 
 
 #undef _BYTE
-#undef BWorld void
-#undef BCameraManager void
-#undef BColor void
+#undef BWorld
+#undef BCameraManager
+#undef BColor

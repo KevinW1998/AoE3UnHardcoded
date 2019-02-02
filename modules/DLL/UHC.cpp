@@ -272,6 +272,7 @@ UHCInfo::UHCInfo() {
 			SetRefTable(Tables[TacticSwitching], key);
 		}
 
+		/*
 		else if (lstrcmpiA(key.Name, "basePop") == 0 && key.Values.GetNumElements() == 1) {
 			Enable |= ENABLE_POP_LIMIT;
 			BasePop = atoi(key.Values[0]);
@@ -281,6 +282,7 @@ UHCInfo::UHCInfo() {
 			Enable |= ENABLE_POP_LIMIT;
 			ExtraPop = atoi(key.Values[0]);
 		}
+		*/
 
 		else if (lstrcmpiA(key.Name, "deckCardCount") == 0 && key.Values.GetNumElements() == 1) {
 			Enable |= ENABLE_DECK_LIMIT;

@@ -27,7 +27,8 @@ enum UHCTableName {
 	NoBigButtonBlds,
 	AttackTypeIcons,
 	TwoScoutCivs,
-	ExplorerUnits
+	ExplorerUnits,
+	Upls
 };
 
 enum UHCSyscallType {
@@ -114,6 +115,7 @@ public:
 	int BasePop, ExtraPop, DeckCardCount;
 	TArray<UHCSyscall> SyscallGroups[GROUP_COUNT];
 	TArray<UHCCheat> Cheats;
+	TArray<LPWSTR> UplFilepaths;
 	TArray<LPWSTR> Personalities;
 	TArray<LPWSTR> AsianCivNames;
 	TArray<LPWSTR> NativeCivNames;
@@ -173,6 +175,7 @@ extern "C" {
 	void __stdcall PatchFarmRadius();
 	void __stdcall PatchTacticSwitching();
 	void __stdcall PatchFameRestriction();
+	void __stdcall PatchFameTrickle();
 	void __stdcall PatchAttackTypeIcons();
 	void __stdcall PatchTwoScoutCivs();
 	void __stdcall PatchExplorerUnits();

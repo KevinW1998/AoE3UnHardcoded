@@ -19,6 +19,16 @@ UHCPluginInfo pluginInfo = {
 	reinterpret_cast<void(*)(void*, const char*)>(0x007B4F03)
 };
 
+// request high-performance NVIDIA GPU
+extern "C" {
+	__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
+
+// request high-performance AMD GPU
+extern "C" {
+	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+
 // override operator new and delete
 /*void* operator new(size_t size) {
 	auto _operator_new = reinterpret_cast<void* (__thiscall *)(int, size_t*)>(0x401234);
@@ -123,12 +133,12 @@ inline void SetRefTable(UHCRefTable& table, ConfigKey& key) {
 
 UHCInfo::UHCInfo() {
 	// UHC Patcher default string offset
-	//LPCWSTR szConfig = (LPCWSTR)0x00C65083;
+	LPCWSTR szConfig = (LPCWSTR)0x00C65083;
 
-	WCHAR szConfig[MAX_PATH];
-	LPCWSTR lpStartup = (LPCWSTR)0xbeaf98;
-	lstrcpyW(szConfig, lpStartup);
-	lstrcatW(szConfig, L"uhc.cfg");
+	//WCHAR szConfig[MAX_PATH];
+	//LPCWSTR lpStartup = (LPCWSTR)0xbeaf98;
+	//lstrcpyW(szConfig, lpStartup);
+	//lstrcatW(szConfig, L"uhc.cfg");
 
 	Enable = 0;
 
@@ -301,8 +311,18 @@ UHCInfo::UHCInfo() {
 		else if (lstrcmpiA(key.Name, "customRevolutionBanners") == 0)
 			Enable |= ENABLE_REV_BANNER;
 
-		else if (lstrcmpiA(key.Name, "customSyscalls") == 0)
+		else if (lstrcmpiA(key.Name, "customSyscalls") == 0) {
 			Enable |= ENABLE_SYSCALL;
+			SetRefTable(Tables[Upls], key);
+
+			for (DWORD i = 0; i < Tables[Upls].RefCount; i++) {
+				LPCSTR lpSrc = Tables[Upls].Refs[i];
+				size_t length = lstrlenA(lpSrc) + 1;
+				WCHAR* lpStr = new WCHAR[length];
+				mbstowcs(lpStr, lpSrc, length);
+				UplFilepaths.PushBack(lpStr);
+			}
+		}
 
 		else if (lstrcmpiA(key.Name, "enableAllTeams") == 0)
 			Enable |= ENABLE_TEAM_LIMIT;
@@ -329,6 +349,9 @@ UHCInfo::~UHCInfo() {
 			delete[] SyscallGroups[g][i].Params;
 	}
 
+	for (size_t i = 0; i < UplFilepaths.GetNumElements(); i++)
+		delete[] UplFilepaths[i];
+
 	for (size_t i = 0; i < Personalities.GetNumElements(); i++)
 		delete[] Personalities[i];
 
@@ -340,37 +363,45 @@ UHCInfo::~UHCInfo() {
 }
 
 void UHCInfo::LoadPlugins() {
-	WIN32_FIND_DATAW fd;
-	HANDLE hFind = FindFirstFileW(L"*.upl", &fd);
-
-	if (hFind != INVALID_HANDLE_VALUE) {
-
-		do {
-			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				continue;
-			HMODULE hLib = LoadLibraryW(fd.cFileName);
-
-			if (!hLib)
-				continue;
-
-			FARPROC pluginProc = GetProcAddress(hLib, "UHCPluginMain");
-
-			if (pluginProc) {
-				int exitCode;
-
-				exitCode = reinterpret_cast<int(*)(UHCPluginInfo*)>(pluginProc)(&pluginInfo);
-
-#ifdef _DEBUG
-				WCHAR debugMsg[256];
-				wsprintfW(debugMsg, L"UHC Plugin \"%s\" returned with exit code %d.\n", fd.cFileName, exitCode);
-				OutputDebugStringW(debugMsg);
-#endif
-			}
-
-		} while (FindNextFileW(hFind, &fd));
+	// defaults to load all upls in folder if none specified
+	if (UplFilepaths.GetNumElements() == 0) {
+		UplFilepaths.PushBack(L"*.upl");
 	}
 
-	FindClose(hFind);
+	for (size_t i = 0; i < UplFilepaths.GetNumElements(); i++) {
+
+		WIN32_FIND_DATAW fd;
+		HANDLE hFind = FindFirstFileW(UplFilepaths[i], &fd);
+
+		if (hFind != INVALID_HANDLE_VALUE) {
+
+			do {
+				if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+					continue;
+				HMODULE hLib = LoadLibraryW(fd.cFileName);
+
+				if (!hLib)
+					continue;
+
+				FARPROC pluginProc = GetProcAddress(hLib, "UHCPluginMain");
+
+				if (pluginProc) {
+					int exitCode;
+
+					exitCode = reinterpret_cast<int(*)(UHCPluginInfo*)>(pluginProc)(&pluginInfo);
+
+#ifdef _DEBUG
+					WCHAR debugMsg[256];
+					wsprintfW(debugMsg, L"UHC Plugin \"%s\" returned with exit code %d.\n", fd.cFileName, exitCode);
+					OutputDebugStringW(debugMsg);
+#endif
+				}
+
+			} while (FindNextFileW(hFind, &fd));
+		}
+
+		FindClose(hFind);
+	}
 }
 
 extern "C" _declspec(dllexport)
@@ -429,10 +460,10 @@ void APIENTRY UHCMain() {
 		if (enable & ENABLE_NATIVE_CIVS)
 			PatchNativeCivs();
 		
-		if (enable & ENABLE_BIGBUTTON)
+		if (enable & ENABLE_TWO_SCOUT_CIVS)
 			PatchTwoScoutCivs();
 
-		if (enable & ENABLE_TWO_SCOUT_CIVS)
+		if (enable & ENABLE_BIGBUTTON)
 			PatchBigButton();
 
 		if (enable & ENABLE_POP_LIMIT)
@@ -450,8 +481,10 @@ void APIENTRY UHCMain() {
 		if (enable & ENABLE_REGISTRY_PATH)
 			PatchRegistryPath();
 
-		if (enable & REMOVE_FAME_RESTRICTION)
+		if (enable & REMOVE_FAME_RESTRICTION) {
 			PatchFameRestriction();
+            PatchFameTrickle();
+        }
 
 		if (enable & REMOVE_CONVERSION_RESTRICTION)
 			PatchConversionRestriction();

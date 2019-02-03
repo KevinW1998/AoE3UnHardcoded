@@ -13,6 +13,7 @@ ucm_add_linker_flags(SHARED "/SAFESEH:NO" "/DELAYLOAD:Bang.dll")
 
 # == Dependencies ==
 zydis_add_dependency(UHCDLL)
+remod_add_dependency(UHCDLL)
 add_dependencies(UHCDLL BangNative)
 target_link_libraries(UHCDLL BangNative)
 target_link_libraries(UHCDLL "${UHC_BANG_NATIVE_FAKE_DLL_FOLDER}/Bang.lib")

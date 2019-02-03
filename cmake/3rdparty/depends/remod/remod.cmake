@@ -16,7 +16,7 @@ ExternalProject_Add(
     # UPDATE_COMMAND "git pull"
     LOG_DOWNLOAD ON
     BUILD_IN_SOURCE 1
-    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${REMOD_INSTALL_DIR}"
+    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${REMOD_INSTALL_DIR}" "-DBUILD_SHARED_LIBS=OFF"
 )
 
 function(remod_add_dependency target)

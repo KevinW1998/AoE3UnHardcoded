@@ -9,6 +9,7 @@ target_include_directories(BangNative PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # == DEPENDENCIES ==
 remod_add_dependency(BangNative)
+asmpatchbuilder_add_dependency(BangNative)
 
 
 # == GENERATOR ==

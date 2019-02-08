@@ -37,6 +37,7 @@ enable_testing()
 # Include Dependencies
 include(cmake/3rdparty/depends/zydis/zydis.cmake)
 include(cmake/3rdparty/depends/remod/remod.cmake)
+include(cmake/3rdparty/depends/AsmPatchBuilder/AsmPatchBuilder.cmake)
 
 
 # Includes

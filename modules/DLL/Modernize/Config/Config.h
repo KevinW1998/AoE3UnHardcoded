@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <filesystem>
+#include <optional>
 
 #include "DataConverter.h"
 
@@ -13,6 +14,7 @@ namespace UHCDLL
 	{
 		std::unordered_map<std::string, std::vector<std::string>> m_configElements;
 
+		const std::vector<std::string>* FindValueOpt(const std::string& name) const;
 		const std::vector<std::string>& FindValueOrThrow(const std::string& name) const;
 		const std::vector<std::string>& FindAtLeastOneElementOrThrow(const std::string& name) const;
 	
@@ -36,6 +38,21 @@ namespace UHCDLL
 			T outElem{};
 			DataConverter::Convert(name, elems[0], outElem);
 
+			return outElem;
+		}
+
+		template<typename T>
+		std::optional<T> ReadSingleOpt(const std::string& name)
+		{
+			const auto* elems = FindValueOpt(name);
+			if (!elems)
+				return std::nullopt;
+			
+			if (elems->size() <= 0)
+				return std::nullopt;
+
+			T outElem{};
+			DataConverter::Convert(name, (*elems)[0], outElem);
 			return outElem;
 		}
 

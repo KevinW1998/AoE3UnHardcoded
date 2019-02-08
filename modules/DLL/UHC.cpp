@@ -504,10 +504,16 @@ void APIENTRY UHCMain() {
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
 	switch (ul_reason_for_call)
 	{
+	case DLL_PROCESS_ATTACH:
+#ifdef _DEBUG
+		MessageBoxA(0, "'UHC.dll' Attached.", "UHC", MB_ICONINFORMATION);
+#endif
+		break;
 	case DLL_PROCESS_DETACH:
 		if (pUHCInfo)
 			delete pUHCInfo;
 		UHCDLL::MainUHCInstance::Deinit();
+		break;
 	}
 
 	return TRUE;

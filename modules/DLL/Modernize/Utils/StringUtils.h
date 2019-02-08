@@ -5,7 +5,7 @@
 namespace UHCDLL
 {
 	template<typename CharT>
-	bool hasEnding(std::basic_string_view<CharT> fullString, std::basic_string_view<CharT> ending) {
+	bool HasEnding(std::basic_string_view<CharT> fullString, std::basic_string_view<CharT> ending) {
 		if (fullString.length() >= ending.length()) {
 			return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
 		}
@@ -13,7 +13,7 @@ namespace UHCDLL
 	}
 
 	template <typename CharT, typename Container>
-	void splitString(std::basic_string_view<CharT> str, Container& cont,
+	void SplitString(std::basic_string_view<CharT> str, Container& cont,
 		std::basic_string_view<CharT> delims = " ")
 	{
 		std::size_t current, previous = 0;

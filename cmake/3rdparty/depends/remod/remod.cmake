@@ -11,7 +11,7 @@ ExternalProject_Add(
     PREFIX ${CMAKE_BINARY_DIR}/external/remod
     GIT_REPOSITORY https://github.com/KevinW1998/ReMod-Core.git
     # GIT_TAG v2.0.1 # No git tag for now...
-    GIT_TAG 30fe0d401bef0f5cfd49ae5c22b87fc204e139e5
+    GIT_TAG 6512906f9ce268919a93a286cbc6345e4123d98a
     TIMEOUT 10
     # UPDATE_COMMAND "git pull"
     LOG_DOWNLOAD ON

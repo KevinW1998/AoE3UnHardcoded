@@ -8,6 +8,14 @@
 
 namespace fs = std::filesystem;
 
+const std::vector<std::string>* UHCDLL::Config::FindValueOpt(const std::string & name) const
+{
+	auto it = m_configElements.find(name);
+	if (it == m_configElements.end())
+		return nullptr;
+	return &it->second;
+}
+
 const std::vector<std::string>& UHCDLL::Config::FindValueOrThrow(const std::string& name) const
 {
 	auto it = m_configElements.find(name);
@@ -29,7 +37,7 @@ void UHCDLL::Config::ReadFromFile(std::wstring_view path)
 {
 	using namespace std::literals;
 	fs::path cur_path = fs::current_path();
-	if (!hasEnding(std::string_view(cur_path.u8string()), "bin"sv))
+	if (!HasEnding(std::string_view(cur_path.u8string()), "bin"sv))
 		cur_path /= "bin";
 	
 	fs::path file_path = cur_path / fs::path(path) / "uhc.cfg";
@@ -54,14 +62,14 @@ void UHCDLL::Config::ReadFromFile(std::wstring_view path)
 		if(out.find('=') != std::string::npos)
 		{
 			std::vector<std::string_view> elements;
-			splitString(std::string_view(out), elements, "="sv);
+			SplitString(std::string_view(out), elements, "="sv);
 
 			m_configElements[std::string(elements[0])] = { { std::string(elements[1])} };
 		}
 		else if(out.find(' ') != std::string::npos)
 		{
 			std::vector<std::string_view> elements;
-			splitString(std::string_view(out), elements, " "sv);
+			SplitString(std::string_view(out), elements, " "sv);
 
 			std::vector<std::string> allocElements;
 			std::transform(elements.begin() + 1, elements.end(), std::back_inserter(allocElements), [](std::string_view elem) { return std::string(elem); });

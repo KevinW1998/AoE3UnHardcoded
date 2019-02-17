@@ -7,9 +7,17 @@ std::vector<std::unique_ptr<UHCDLL::BaseFeature>> UHCDLL::RegistersFeatures()
 {
 	std::vector<std::unique_ptr<UHCDLL::BaseFeature>> retVal;
 
+	// Config "basePop", "extraPop"
 	retVal.emplace_back(new MaxPopOverrideFeature());
-	// retVal.emplace_back(new BasicMemoryPatch<std::int32_t>("basePop", 0x004581FE));
-	// retVal.emplace_back(new BasicMemoryPatch<std::int8_t>("extraPop", 0x004581F5));
+	
+	// Config "deckCardCount"
+	// TODO: If deck card count needs to be bigger than 128 then use patch
+	retVal.emplace_back(new BasicMemoryPatch<std::int8_t>("deckCardCount", 0x007EF028));
+	retVal.emplace_back(new BasicMemoryPatch<std::int8_t>("deckCardCount", 0x007EF02C));
+
+
+
+
 
 	return retVal;
 }

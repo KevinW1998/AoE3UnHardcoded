@@ -294,10 +294,12 @@ UHCInfo::UHCInfo() {
 		}
 		*/
 
+		/*
 		else if (lstrcmpiA(key.Name, "deckCardCount") == 0 && key.Values.GetNumElements() == 1) {
 			Enable |= ENABLE_DECK_LIMIT;
 			DeckCardCount = atoi(key.Values[0]);
 		}
+		*/
 
 		else if (lstrcmpiA(key.Name, "noAILimit") == 0)
 			Enable |= ENABLE_AI_LIMIT;

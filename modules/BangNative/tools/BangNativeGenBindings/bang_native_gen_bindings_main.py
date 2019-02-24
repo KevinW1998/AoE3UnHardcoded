@@ -7,6 +7,7 @@ from enum import Enum
 from optparse import OptionParser
 from clang.cindex import Index, Config, CursorKind
 
+import bang_native_file_change_detector
 from bang_native_generator import BangNativeGenerator
 from bang_native_parser import BangNativeParser
 from syspaths import ccsyspaths_improved
@@ -118,6 +119,12 @@ def main():
     opt_input_folder = options_result.input or '.'
     opt_cache_folder = options_result.cache_file or os.path.join(options_result.gen_header, "gen-cache.json")
 
+    # Check if generating is needed
+    if not bang_native_file_change_detector.has_file_changes(opt_input_folder, class_names,
+                                                             os.path.normpath(os.path.join(opt_input_folder, ".bang-hash"))):
+        print("Skipping as no file changes has been done")
+        return
+
     args = '-x c++ --std=c++17 -m32 -D__BANG_NATIVE_CODE_GENERATOR__'.split()
     parser = BangNativeParser(options_result.clang_path, args, opt_cache_folder)
     parser.read_entries(opt_input_folder, class_names)
@@ -128,6 +135,9 @@ def main():
         generator.generate(parser.get_parsed_classes())
     else:
         print("Skipping as everything has been read from cache, no generation needed")
+
+    bang_native_file_change_detector.write_file_change_hash(opt_input_folder, class_names,
+                                                      os.path.normpath(os.path.join(opt_input_folder, ".bang-hash")))
 
 if __name__ == '__main__':
     main()

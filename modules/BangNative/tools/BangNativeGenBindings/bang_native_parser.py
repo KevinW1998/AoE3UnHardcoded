@@ -52,7 +52,9 @@ class BangNativeReg(Enum):
     DH = 17,
     DL = 18,
     BH = 19,
-    BL = 20
+    BL = 20,
+    GENERIC_PARAM = 21, # same as in X86Register
+    STACK = 21
 
 
 class BangNativeMethodType(Enum):
